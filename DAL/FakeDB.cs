@@ -10,8 +10,8 @@ namespace DAL
         {
         }
 
-        static List<Video> videos = new List<Video>();
-        private static int ID = 0;
+        public static List<Video> Videos = new List<Video>();
+        public static int ID = 0;
 
         public FakeDB()
         {
@@ -29,40 +29,20 @@ namespace DAL
 
             for (int i = 1; i < count; i++)
             {
-                Video vid = new Video("Video " + i);
+                Video vid = new Video();
+
+                vid.Title = "Video " + i;
 
                 int r = rnd.Next(Authors.Length);
                 vid.Author = Authors[r];
 
                 r = rnd.Next(Genres.Length);
                 vid.Genre = Genres[r];
+                vid.ID = ID++;
 
-                vid.ID = AssignID();
 
-                videos.Add(vid);
+                Videos.Add(vid);
             }
         }
-
-        public int AssignID()
-        {
-            ID++;
-            return ID;
-        }
-
-        public void addVideo(Video video)
-        {
-            videos.Add(video);
-        }
-
-        public void removeVideo(Video video)
-        {
-            videos.Remove(video);
-        }
-
-        public List<Video> getVideos()
-        {
-            return videos;
-        }
-
     }
 }

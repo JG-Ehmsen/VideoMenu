@@ -16,11 +16,6 @@ namespace BE
         public string Genre { get; set; }
         public int ID { get; set; }
 
-        public Video(string title)
-        {
-            this.Title = title;
-        }
-
         public override string ToString()
         {
             return "#" + this.ID + " - " + this.Genre + " - " + this.Title + " by " + Author;

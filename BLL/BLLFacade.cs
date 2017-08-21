@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using DAL;
 using BE;
+using BLL.Services;
 
 namespace BLL
 {
@@ -12,22 +13,11 @@ namespace BLL
         {
         }
 
-        UOW UOW = new UOW();
-
-        public void addVideo(Video video)
+        public IVideoService VideoService
         {
-            UOW.addVideo(video);
+            get { return new VideoService(); }
         }
 
-        public List<Video> getVideos()
-        {
-            return UOW.getVideos();
-        }
-
-        public void removeVideo(Video video)
-        {
-            UOW.removeVideo(video);
-        }
 
     }
 }

@@ -83,10 +83,12 @@ namespace GUI
                         WriteLine("Enter genre:");
                         string genre = ReadLine();
                         WriteLine("Thank you! The new video has been added.");
-                        Video tempVid = new Video(name);
+                        Video tempVid = new Video();
+                        tempVid.Title = name;
                         tempVid.Author = author;
                         tempVid.Genre = genre;
-                        BLLFacade.addVideo(tempVid);
+
+                        BLLFacade.VideoService.Add(tempVid);
                         ReadLine();
                         AddMenu();
                         break;
@@ -102,6 +104,15 @@ namespace GUI
             }
         }
 
+        private void ViewAllVids()
+        {
+            WriteLine("Current videos: ");
+            foreach (var vid in BLLFacade.VideoService.GetAll())
+            {
+                WriteLine(vid.ToString());
+            }
+        }
+
         private void ViewMenu()
         {
             Clear();
@@ -112,11 +123,7 @@ namespace GUI
             WriteLine("Actions:");
             WriteLine("1 - Search | 2 - Exit");
 
-            WriteLine("Current videos: ");
-            foreach (var vid in BLLFacade.getVideos())
-            {
-                WriteLine(vid.ToString());
-            }
+            ViewAllVids();
             while (true)
             {
                 switch (ReadLine())
@@ -145,7 +152,7 @@ namespace GUI
             WriteLine("Enter a search parameter!");
             WriteLine("----------------------------------------------------------------------------------------------");
             string filter = ReadLine().ToLower();
-            foreach (var i in BLLFacade.getVideos())
+            foreach (var i in BLLFacade.VideoService.GetAll())
             {
                 if (i.ToString().ToLower().Contains(filter))
                 {
@@ -193,11 +200,7 @@ namespace GUI
                 WriteLine("Actions:");
                 WriteLine("1 - Edit video | 2 - Go back");
                 WriteLine();
-                WriteLine("Current Videos:");
-                foreach (var vid in BLLFacade.getVideos())
-                {
-                    WriteLine(vid.ToString());
-                }
+                ViewAllVids();
                 switch (ReadLine())
                 {
                     case "1":
@@ -218,7 +221,7 @@ namespace GUI
 
         private void Edit()
         {
-            if (BLLFacade.getVideos().Count == 0)
+            if (BLLFacade.VideoService.GetCount() == 0)
             {
                 WriteLine("There are no videos to edit.");
                 ReadLine();
@@ -234,26 +237,25 @@ namespace GUI
                 }
                 else
                 {
-                    bool match = false;
-                    foreach (var i in BLLFacade.getVideos())
+                    Video video = BLLFacade.VideoService.Get(ID);
+                    if (video != null)
                     {
-                        if (i.ID == ID)
-                        {
-                            match = true;
-                            WriteLine("Editing " + i.ToString());
-                            WriteLine("Enter title:");
-                            i.Title = ReadLine();
-                            WriteLine("Enter author:");
-                            i.Author = ReadLine();
-                            WriteLine("Enter genre:");
-                            i.Genre = ReadLine();
-                            WriteLine("Video has been edited!");
-                            ReadLine();
-                            EditMenu();
-                        }
+
+                        WriteLine("Editing " + video.ToString());
+                        WriteLine("Enter title:");
+                        video.Title = ReadLine();
+                        WriteLine("Enter author:");
+                        video.Author = ReadLine();
+                        WriteLine("Enter genre:");
+                        video.Genre = ReadLine();
+                        WriteLine("Video has been edited!");
+                        BLLFacade.VideoService.Update(video);
+                        ReadLine();
+                        EditMenu();
+
 
                     }
-                    if (!match)
+                    else
                     {
                         WriteLine("No match found.");
                         ReadLine();
@@ -278,7 +280,7 @@ namespace GUI
                 WriteLine("1 - Delete a video | 2 - Go back");
                 WriteLine();
                 WriteLine("Current Videos:");
-                foreach (var vid in BLLFacade.getVideos())
+                foreach (var vid in BLLFacade.VideoService.GetAll())
                 {
                     WriteLine(vid.ToString());
                 }
@@ -302,7 +304,7 @@ namespace GUI
 
         private void Delete()
         {
-            if (BLLFacade.getVideos().Count == 0)
+            if (BLLFacade.VideoService.GetCount() == 0)
             {
                 WriteLine("There are no videos to delete.");
                 ReadLine();
@@ -313,8 +315,7 @@ namespace GUI
             {
                 WriteLine("Enter ID of video to delete.");
                 int ID;
-                bool valid = int.TryParse(ReadLine(), out ID);
-                if (!valid)
+                if (!int.TryParse(ReadLine(), out ID))
                 {
                     WriteLine("Invalid input. Whole numbers only.");
                 }
@@ -322,19 +323,10 @@ namespace GUI
                 {
                     bool match = false;
                     Video vid = null;
-                    foreach (var i in BLLFacade.getVideos())
+                    vid = BLLFacade.VideoService.Get(ID);
+                    if (vid != null)
                     {
-                        if (i.ID == ID)
-                        {
-                            match = true;
-                            vid = i;
-                        }
-
-                    }
-                    if (match)
-                    {
-                        WriteLine("Deleting " + vid.ToString());
-                        BLLFacade.removeVideo(vid);
+                        BLLFacade.VideoService.Delete(ID);
                         ReadLine();
                         DeleteMenu();
                     }
