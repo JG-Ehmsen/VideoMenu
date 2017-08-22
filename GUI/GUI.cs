@@ -12,7 +12,33 @@ namespace GUI
 
         public GUI()
         {
+            GenerateVideos(20);
             MainMenu();
+        }
+
+        private void GenerateVideos(int count)
+        {
+            String[] Authors = { "Billy Bob", "MacMoe", "SuperCoolDUde99", "Danny the Dude", "Me", "RealPerson", "KimK", "Someone Else" };
+
+            String[] Genres = { "Random", "Funny", "Sad", "Gaming", "Music", "Hobbies", "DYI" };
+
+            Random rnd = new Random();
+
+
+            for (int i = 1; i < count; i++)
+            {
+                Video vid = new Video();
+
+                vid.Title = "Video " + i;
+
+                int r = rnd.Next(Authors.Length);
+                vid.Author = Authors[r];
+
+                r = rnd.Next(Genres.Length);
+                vid.Genre = Genres[r];
+
+                BLLFacade.VideoService.Add(vid);
+            }
         }
 
         private void MainMenu()
@@ -327,6 +353,8 @@ namespace GUI
                     if (vid != null)
                     {
                         BLLFacade.VideoService.Delete(ID);
+                        Clear();
+                        WriteLine("Successfully deleted the video. Press enter to continue.");
                         ReadLine();
                         DeleteMenu();
                     }

@@ -18,7 +18,7 @@ namespace BE
 
         public override string ToString()
         {
-            return "#" + this.ID + " - " + this.Genre + " - " + this.Title + " by " + Author;
+            return "#" + this.ID + " - " + this.Title + " by " + Author + " - " + this.Genre;
         }
     }
 }
