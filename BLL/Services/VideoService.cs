@@ -9,51 +9,42 @@ namespace BLL.Services
 {
     class VideoService : IVideoService
     {
+        IVideoRepository repo;
+
+        public VideoService(IVideoRepository repo)
+        {
+            this.repo = repo;
+        }
+
         public void Add(Video video)
         {
-            FakeDB.Videos.Add(new Video()
-            {
-                Title = video.Title,
-                Author = video.Author,
-                Genre = video.Genre,
-                ID = FakeDB.ID++
-
-
-            });
+            repo.Add(video);
         }
 
         public void Delete(int Id)
         {
-            Video vid = Get(Id);
-            if (vid != null)
-            {
-                FakeDB.Videos.Remove(vid);
-            }
-            else
-            {
-                Console.WriteLine("Somethings' wrong!");
-            }
+            repo.Delete(Id);
         }
 
         public Video Get(int Id)
         {
-            return FakeDB.Videos.FirstOrDefault(x => x.ID == Id);
+            return repo.Get(Id);
         }
 
         public List<Video> GetAll()
         {
-            return FakeDB.Videos;
+            return repo.GetAll();
         }
 
         public int GetCount()
         {
-            return FakeDB.Videos.Count();
+            return repo.GetCount();
         }
 
         public Video Update(Video video)
         {
             Video vid = Get(video.ID);
-            if(vid != null)
+            if (vid != null)
             {
                 vid.Title = video.Title;
                 vid.Author = video.Author;
@@ -64,8 +55,6 @@ namespace BLL.Services
             {
                 return null;
             }
-
-            
         }
     }
 }

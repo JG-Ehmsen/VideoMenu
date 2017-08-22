@@ -27,10 +27,10 @@ namespace GUI
 
             for (int i = 1; i < count; i++)
             {
-                Video vid = new Video();
-
-                vid.Title = "Video " + i;
-
+                Video vid = new Video()
+                {
+                    Title = "Video " + i
+                };
                 int r = rnd.Next(Authors.Length);
                 vid.Author = Authors[r];
 
@@ -48,13 +48,14 @@ namespace GUI
             {
                 WriteLine("What would you like to do?");
                 WriteLine("----------------------------------------------------------------------------------------------");
-                List<string> items = new List<string>();
-                items.Add("Add videos.");
-                items.Add("View videos.");
-                items.Add("Edit vidos.");
-                items.Add("Delete videos.");
-                items.Add("Exit");
-
+                List<string> items = new List<string>
+                {
+                    "Add videos.",
+                    "View videos.",
+                    "Edit vidos.",
+                    "Delete videos.",
+                    "Exit"
+                };
                 int index = 1;
                 foreach (var i in items)
                 {
@@ -102,21 +103,7 @@ namespace GUI
                 switch (ReadLine())
                 {
                     case "1":
-                        WriteLine("Enter video name:");
-                        string name = ReadLine();
-                        WriteLine("Enter video author:");
-                        string author = ReadLine();
-                        WriteLine("Enter genre:");
-                        string genre = ReadLine();
-                        WriteLine("Thank you! The new video has been added.");
-                        Video tempVid = new Video();
-                        tempVid.Title = name;
-                        tempVid.Author = author;
-                        tempVid.Genre = genre;
-
-                        BLLFacade.VideoService.Add(tempVid);
-                        ReadLine();
-                        AddMenu();
+                        Add();
                         break;
                     case "2":
                         Clear();
@@ -128,6 +115,26 @@ namespace GUI
                         break;
                 }
             }
+        }
+
+        private void Add()
+        {
+            WriteLine("Enter video name:");
+            string name = ReadLine();
+            WriteLine("Enter video author:");
+            string author = ReadLine();
+            WriteLine("Enter genre:");
+            string genre = ReadLine();
+            WriteLine("Thank you! The new video has been added.");
+            Video tempVid = new Video()
+            {
+                Title = name,
+                Author = author,
+                Genre = genre
+            };
+            BLLFacade.VideoService.Add(tempVid);
+            ReadLine();
+            AddMenu();
         }
 
         private void ViewAllVids()
@@ -340,16 +347,14 @@ namespace GUI
             while (true)
             {
                 WriteLine("Enter ID of video to delete.");
-                int ID;
-                if (!int.TryParse(ReadLine(), out ID))
+                if (!int.TryParse(ReadLine(), out int ID))
                 {
                     WriteLine("Invalid input. Whole numbers only.");
                 }
                 else
                 {
-                    bool match = false;
-                    Video vid = null;
-                    vid = BLLFacade.VideoService.Get(ID);
+                    Video vid = BLLFacade.VideoService.Get(ID);
+
                     if (vid != null)
                     {
                         BLLFacade.VideoService.Delete(ID);
@@ -361,6 +366,7 @@ namespace GUI
                     else
                     {
                         WriteLine("No match found.");
+                        DeleteMenu();
                     }
                 }
             }
