@@ -55,13 +55,17 @@ namespace BLL.Services
             Video vid = Get(video.ID);
             if(vid != null)
             {
-                throw new InvalidOperationException("Video not found.");
+                vid.Title = video.Title;
+                vid.Author = video.Author;
+                vid.Genre = video.Genre;
+                return vid;
+            }
+            else
+            {
+                return null;
             }
 
-            vid.Title = video.Title;
-            vid.Author = video.Author;
-            vid.Genre = video.Author;
-            return vid;
+            
         }
     }
 }
