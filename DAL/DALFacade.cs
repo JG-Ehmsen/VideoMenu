@@ -7,7 +7,7 @@ namespace DAL
 {
     public class DALFacade
     {
-        public IVideoRepository VideoRepository { get { return new VideoRepositoryFakeDB(); } }
+        public IVideoRepository VideoRepository { get { return new VideoRepositoryEFMemory(new Context.InMemoryContext()); } }
 
 
     }
