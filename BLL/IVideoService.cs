@@ -12,6 +12,7 @@ namespace BLL
         //R
         List<Video> GetAll();
         Video Get(int Id);
+        List<Video> Filter(String filter);
         int GetCount();
         //U
         Video Update(Video video);

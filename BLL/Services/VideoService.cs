@@ -56,5 +56,20 @@ namespace BLL.Services
                 return null;
             }
         }
+
+        public List<Video> Filter(String filter)
+        {
+            List<Video> filteredVideos = new List<Video>();
+
+            foreach (var i in repo.GetAll())
+            {
+                if (i.ToString().ToLower().Contains(filter))
+                {
+                    filteredVideos.Add(i);
+                }
+            }
+
+            return filteredVideos;
+        }
     }
 }

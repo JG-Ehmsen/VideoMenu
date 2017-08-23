@@ -178,25 +178,17 @@ namespace GUI
 
         private void SearchMenu()
         {
-            List<Video> filteredVideos = new List<Video>();
             Clear();
             WriteLine("----------------------------------------------------------------------------------------------");
             WriteLine("You can now search for specific videos.");
             WriteLine("Enter a search parameter!");
             WriteLine("----------------------------------------------------------------------------------------------");
             string filter = ReadLine().ToLower();
-            foreach (var i in BLLFacade.VideoService.GetAll())
-            {
-                if (i.ToString().ToLower().Contains(filter))
-                {
-                    filteredVideos.Add(i);
-                }
-            }
 
             WriteLine("Results: ");
             WriteLine();
 
-            foreach (var i in filteredVideos)
+            foreach (var i in BLLFacade.VideoService.Filter(filter))
             {
                 WriteLine(i.ToString());
             }
