@@ -9,9 +9,9 @@ namespace BLL
 {
     public class BLLFacade
     {
-        static void Main(string[] args)
-        {
-        }
+        //static void Main(string[] args)
+        //{
+        //}
 
         public IVideoService VideoService
         {
