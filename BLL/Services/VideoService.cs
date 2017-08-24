@@ -9,51 +9,72 @@ namespace BLL.Services
 {
     class VideoService : IVideoService
     {
-        IVideoRepository repo;
+        DALFacade facade;
 
-        public VideoService(IVideoRepository repo)
+        public VideoService(DALFacade facade)
         {
-            this.repo = repo;
+            this.facade = facade;
         }
 
         public void Add(Video video)
         {
-            repo.Add(video);
+            using (var uow = facade.UnitOfWork)
+            {
+                uow.VideoRepository.Add(video);
+                uow.Complete();
+            }
         }
 
         public void Delete(int Id)
         {
-            repo.Delete(Id);
+            using (var uow = facade.UnitOfWork)
+            {
+                uow.VideoRepository.Delete(Id);
+                uow.Complete();
+            }
         }
 
         public Video Get(int Id)
         {
-            return repo.Get(Id);
+            using (var uow = facade.UnitOfWork)
+            {
+                return uow.VideoRepository.Get(Id);
+            }
         }
 
         public List<Video> GetAll()
         {
-            return repo.GetAll();
+            using (var uow = facade.UnitOfWork)
+            {
+                return uow.VideoRepository.GetAll();
+            }
         }
 
         public int GetCount()
         {
-            return repo.GetCount();
+            using (var uow = facade.UnitOfWork)
+            {
+                return uow.VideoRepository.GetCount();
+            }
         }
 
         public Video Update(Video video)
         {
-            Video vid = Get(video.ID);
-            if (vid != null)
+            using (var uow = facade.UnitOfWork)
             {
-                vid.Title = video.Title;
-                vid.Author = video.Author;
-                vid.Genre = video.Genre;
-                return vid;
-            }
-            else
-            {
-                return null;
+                Video vid = Get(video.ID);
+                if (vid != null)
+                {
+                    vid.Title = video.Title;
+                    vid.Author = video.Author;
+                    vid.Genre = video.Genre;
+                    uow.Complete();
+                    return vid;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -61,7 +82,7 @@ namespace BLL.Services
         {
             List<Video> filteredVideos = new List<Video>();
 
-            foreach (var i in repo.GetAll())
+            foreach (var i in GetAll())
             {
                 if (i.ToString().ToLower().Contains(filter))
                 {

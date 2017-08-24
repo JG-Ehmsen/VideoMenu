@@ -19,7 +19,6 @@ namespace DAL.Repositories
         public void Add(Video video)
         {
             _context.Videos.Add(video);
-            _context.SaveChanges();
         }
 
         public void Delete(int Id)
@@ -28,7 +27,6 @@ namespace DAL.Repositories
             if (vid != null)
             {
                 _context.Remove(vid);
-                _context.SaveChanges();
             }
             else
             {
