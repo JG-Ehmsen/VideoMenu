@@ -62,11 +62,11 @@ namespace BLL.Services
         {
             using (var uow = facade.UnitOfWork)
             {
-                Video vid = Get(video.ID);
+                Video vid = uow.VideoRepository.Get(video.ID);
                 if (vid != null)
                 {
-                    vid.Title = video.Title;
                     vid.Author = video.Author;
+                    vid.Title = video.Title;
                     vid.Genre = video.Genre;
                     uow.Complete();
                     return vid;
