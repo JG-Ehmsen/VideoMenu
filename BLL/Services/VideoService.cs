@@ -65,9 +65,9 @@ namespace BLL.Services
                 Video vid = uow.VideoRepository.Get(video.ID);
                 if (vid != null)
                 {
-                    vid.Author = video.Author;
-                    vid.Title = video.Title;
-                    vid.Genre = video.Genre;
+                    uow.VideoRepository.Get(video.ID).Author = video.Author;
+                    uow.VideoRepository.Get(video.ID).Title = video.Title;
+                    uow.VideoRepository.Get(video.ID).Genre = video.Genre;
                     uow.Complete();
                     return vid;
                 }
