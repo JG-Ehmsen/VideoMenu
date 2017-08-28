@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BE;
 using DAL.Context;
 using System.Linq;
+using DAL.Entities;
 
 namespace DAL.Repositories
 {

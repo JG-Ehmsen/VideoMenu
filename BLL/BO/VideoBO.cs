@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BE
+namespace BLL.BO
 {
-    public class Video
+    public class VideoBO
     {
         public string Title { get; set; }
         public string Author { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using BE;
 using DAL;
+using BLL.BO;
+using DAL.Entities;
 using System.Linq;
 
 namespace BLL.Services
@@ -16,22 +16,23 @@ namespace BLL.Services
             this.facade = facade;
         }
 
-        public void Add(Video video)
+        public void Add(VideoBO video)
         {
             using (var uow = facade.UnitOfWork)
             {
-                uow.VideoRepository.Add(video);
+
+                uow.VideoRepository.Add(Convert(video));
                 uow.Complete();
             }
         }
 
-        public void AddVideos(List<Video> videos)
+        public void AddVideos(List<VideoBO> videos)
         {
             using (var uow = facade.UnitOfWork)
             {
                 foreach (var item in videos)
                 {
-                    uow.VideoRepository.Add(item);
+                    uow.VideoRepository.Add(Convert(item));
                 }
                 uow.Complete();
             }
@@ -46,19 +47,19 @@ namespace BLL.Services
             }
         }
 
-        public Video Get(int Id)
+        public VideoBO Get(int Id)
         {
             using (var uow = facade.UnitOfWork)
             {
-                return uow.VideoRepository.Get(Id);
+                return Convert(uow.VideoRepository.Get(Id));
             }
         }
 
-        public List<Video> GetAll()
+        public List<VideoBO> GetAll()
         {
             using (var uow = facade.UnitOfWork)
             {
-                return uow.VideoRepository.GetAll();
+                return uow.VideoRepository.GetAll().Select(Convert).ToList();
             }
         }
 
@@ -70,7 +71,7 @@ namespace BLL.Services
             }
         }
 
-        public Video Update(Video video)
+        public VideoBO Update(VideoBO video)
         {
             using (var uow = facade.UnitOfWork)
             {
@@ -81,7 +82,7 @@ namespace BLL.Services
                     uow.VideoRepository.Get(video.ID).Title = video.Title;
                     uow.VideoRepository.Get(video.ID).Genre = video.Genre;
                     uow.Complete();
-                    return vid;
+                    return Convert(vid);
                 }
                 else
                 {
@@ -90,9 +91,9 @@ namespace BLL.Services
             }
         }
 
-        public List<Video> Filter(String filter)
+        public List<VideoBO> Filter(String filter)
         {
-            List<Video> filteredVideos = new List<Video>();
+            List<VideoBO> filteredVideos = new List<VideoBO>();
 
             foreach (var i in GetAll())
             {
@@ -103,6 +104,28 @@ namespace BLL.Services
             }
 
             return filteredVideos;
+        }
+
+        private Video Convert(VideoBO vid)
+        {
+            return new Video()
+            {
+                ID = vid.ID,
+                Title = vid.Title,
+                Author = vid.Author,
+                Genre = vid.Genre
+            };
+        }
+
+        private VideoBO Convert(Video vid)
+        {
+            return new VideoBO()
+            {
+                ID = vid.ID,
+                Title = vid.Title,
+                Author = vid.Author,
+                Genre = vid.Genre
+            };
         }
     }
 }

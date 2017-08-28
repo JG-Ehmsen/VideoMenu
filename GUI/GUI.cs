@@ -1,5 +1,5 @@
-﻿using BE;
-using BLL;
+﻿using BLL;
+using BLL.BO;
 using System;
 using System.Collections.Generic;
 using static System.Console;
@@ -27,7 +27,7 @@ namespace GUI
 
             for (int i = 1; i < count; i++)
             {
-                Video vid = new Video()
+                VideoBO vid = new VideoBO()
                 {
                     Title = "Video " + i
                 };
@@ -123,7 +123,7 @@ namespace GUI
 
         private void Multi()
         {
-            List<Video> videos = new List<Video>();
+            List<VideoBO> videos = new List<VideoBO>();
             WriteLine("You can now add multiple videos.");
             while (true)
             {
@@ -134,7 +134,7 @@ namespace GUI
                 WriteLine("Enter genre:");
                 string genre = ReadLine();
                 WriteLine("Thank you! The new video has been added.");
-                Video tempVid = new Video()
+                VideoBO tempVid = new VideoBO()
                 {
                     Title = name,
                     Author = author,
@@ -169,7 +169,7 @@ namespace GUI
             WriteLine("Enter genre:");
             string genre = ReadLine();
             WriteLine("Thank you! The new video has been added.");
-            Video tempVid = new Video()
+            VideoBO tempVid = new VideoBO()
             {
                 Title = name,
                 Author = author,
@@ -228,8 +228,7 @@ namespace GUI
             WriteLine("----------------------------------------------------------------------------------------------");
             string filter = ReadLine().ToLower();
 
-            WriteLine("Results: ");
-            WriteLine();
+            WriteLine("Results: /n");
 
             foreach (var i in BLLFacade.VideoService.Filter(filter))
             {
@@ -266,8 +265,7 @@ namespace GUI
             while (true)
             {
                 WriteLine("Actions:");
-                WriteLine("1 - Edit video | 2 - Go back");
-                WriteLine();
+                WriteLine("1 - Edit video | 2 - Go back/n");
                 ViewAllVids();
                 switch (ReadLine())
                 {
@@ -305,7 +303,7 @@ namespace GUI
                 }
                 else
                 {
-                    Video video = BLLFacade.VideoService.Get(ID);
+                    VideoBO video = BLLFacade.VideoService.Get(ID);
                     if (video != null)
                     {
 
@@ -339,14 +337,12 @@ namespace GUI
             WriteLine("----------------------------------------------------------------------------------------------");
             WriteLine("Welcome to the delete menu.");
             WriteLine("Here you can delete any of your videos.");
-            WriteLine("----------------------------------------------------------------------------------------------");
-            WriteLine();
+            WriteLine("----------------------------------------------------------------------------------------------/n");
 
             while (true)
             {
                 WriteLine("Actions:");
-                WriteLine("1 - Delete a video | 2 - Go back");
-                WriteLine();
+                WriteLine("1 - Delete a video | 2 - Go back/n");
                 WriteLine("Current Videos:");
                 foreach (var vid in BLLFacade.VideoService.GetAll())
                 {
@@ -388,7 +384,7 @@ namespace GUI
                 }
                 else
                 {
-                    Video vid = BLLFacade.VideoService.Get(ID);
+                    VideoBO vid = BLLFacade.VideoService.Get(ID);
 
                     if (vid != null)
                     {

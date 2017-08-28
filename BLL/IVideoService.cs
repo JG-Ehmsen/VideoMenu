@@ -1,22 +1,21 @@
-﻿using BE;
+﻿using BLL.BO;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BLL
 {
     public interface IVideoService
     {
         //C
-        void Add(Video video);
-        void AddVideos(List<Video> videos);
+        void Add(VideoBO video);
+        void AddVideos(List<VideoBO> videos);
         //R
-        List<Video> GetAll();
-        Video Get(int Id);
-        List<Video> Filter(String filter);
+        List<VideoBO> GetAll();
+        VideoBO Get(int Id);
+        List<VideoBO> Filter(String filter);
         int GetCount();
         //U
-        Video Update(Video video);
+        VideoBO Update(VideoBO video);
         //D
         void Delete(int Id);
     }
