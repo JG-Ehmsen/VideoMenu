@@ -218,7 +218,7 @@ namespace GUI
             Clear();
             WriteLine("----------------------------------------------------------------------------------------------");
             WriteLine("Welcome to the edit menu.");
-            WriteLine("Here you can edit all our videos. NOT IMPLEMENTED.");
+            WriteLine("Here you can edit all our videos.");
             WriteLine("----------------------------------------------------------------------------------------------");
             while (true)
             {
