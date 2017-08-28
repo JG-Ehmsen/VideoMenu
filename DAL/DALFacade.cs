@@ -8,7 +8,6 @@ namespace DAL
 {
     public class DALFacade
     {
-        public IVideoRepository VideoRepository { get { return new VideoRepositoryEFMemory(new Context.InMemoryContext()); } }
 
         public IUnitOfWork UnitOfWork
         {
@@ -16,6 +15,6 @@ namespace DAL
             {
                 return new UnitOfWorkMem();
             }
-            }
+        }
     }
 }

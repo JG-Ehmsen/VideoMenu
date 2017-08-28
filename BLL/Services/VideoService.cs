@@ -25,6 +25,18 @@ namespace BLL.Services
             }
         }
 
+        public void AddVideos(List<Video> videos)
+        {
+            using (var uow = facade.UnitOfWork)
+            {
+                foreach (var item in videos)
+                {
+                    uow.VideoRepository.Add(item);
+                }
+                uow.Complete();
+            }
+        }
+
         public void Delete(int Id)
         {
             using (var uow = facade.UnitOfWork)

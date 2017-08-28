@@ -99,7 +99,7 @@ namespace GUI
             while (true)
             {
                 WriteLine("Actions:");
-                WriteLine("1 - Add new video | 2 - Go back");
+                WriteLine("1 - Add new video | 2 - Add multiple | 3 - Go back");
                 switch (ReadLine())
                 {
                     case "1":
@@ -107,7 +107,50 @@ namespace GUI
                         break;
                     case "2":
                         Clear();
+                        Multi();
+                        break;
+                    case "3":
+                        Clear();
                         MainMenu();
+                        break;
+                    default:
+                        Clear();
+                        WriteLine("Invalid input.");
+                        break;
+                }
+            }
+        }
+
+        private void Multi()
+        {
+            List<Video> videos = new List<Video>();
+            WriteLine("You can now add multiple videos.");
+            while (true)
+            {
+                WriteLine("Enter video name:");
+                string name = ReadLine();
+                WriteLine("Enter video author:");
+                string author = ReadLine();
+                WriteLine("Enter genre:");
+                string genre = ReadLine();
+                WriteLine("Thank you! The new video has been added.");
+                Video tempVid = new Video()
+                {
+                    Title = name,
+                    Author = author,
+                    Genre = genre
+                };
+                videos.Add(tempVid);
+                WriteLine("Actions:");
+                WriteLine("1 - Add another | 2 - Go back");
+                switch (ReadLine())
+                {
+                    case "1":
+                        break;
+                    case "2":
+                        Clear();
+                        BLLFacade.VideoService.AddVideos(videos);
+                        AddMenu();
                         break;
                     default:
                         Clear();

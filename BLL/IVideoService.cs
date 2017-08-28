@@ -9,6 +9,7 @@ namespace BLL
     {
         //C
         void Add(Video video);
+        void AddVideos(List<Video> videos);
         //R
         List<Video> GetAll();
         Video Get(int Id);
